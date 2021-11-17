@@ -1,33 +1,45 @@
 <template>
   <div class="basket">
     <div class="items">
-
-      <div class="item">
-        <div class="remove">Remover Produto</div>
-        <div class="photo"><img src="https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg" alt=""></div>
-        <div class="description">Mens Casual Premium Slim Fit T-Shirts </div>
-        <div class="price">
-          <span class="quantity-area">
-            <button disabled="">-</button>
-            <span class="quantity">1</span>
-            <button>+</button>
-          </span>
-          <span class="amount">R$ 22.30</span>
+      <template v-if="productsInBag.length">
+        <div class="item" v-for="(prod, index) in productsInBag" :key="index">
+          <div class="remove" @click="this.$store.dispatch('removeFromBag', prod.id)">Remover Produto</div>
+          <div class="photo"><img :src="prod.image" alt=""></div>
+          <div class="description">{{prod.title}}</div>
+          <div class="price">
+            <span class="quantity-area">
+              <button :disabled="prod.quantity <= 1" @click="prod.quantity --">-</button>
+              <span class="quantity">{{prod.quantity}}</span>
+              <button @click="prod.quantity++">+</button>
+            </span>
+            <span class="amount">R$ {{(prod.price * prod.quantity).toFixed(2)}}</span>
+          </div>
         </div>
-      </div>
-      <div class="grand-total"> Total do pedido: R$ 22.30</div>
+        <div class="grand-total"> Total do pedido: R$ {{calculaTotal()}}</div>
+      </template>
+      <template v-else>
+        <h3>Nenhum item no carrinho</h3>
+      </template>
+        
 
     </div>
   </div>
 </template>
 
 <script>
+import {mapState} from "vuex"
 
 export default {
+  computed: mapState([
+    'productsInBag' 
+  ]),
   name: 'Basket',
-
   methods: {
-   
+   calculaTotal() {
+     let total = 0;
+     this.productsInBag.forEach(item => total += item.price * item.quantity)
+     return total.toFixed(2);
+   }
   },
  
 }
