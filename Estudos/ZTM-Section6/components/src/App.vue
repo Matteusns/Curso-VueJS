@@ -1,28 +1,47 @@
 <template>
   <div>
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h3>Opa</h3>
+    <Greeting 
+      :age="age"
+    />
+    <User
+      :age="age"
+      :updateAgeFn="updateAgeCB"
+      @ageChange="updateAge"
+    />
   </div>
 </template>
 
+
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Greeting from "./components/Greeting.vue"
+import User from "./components/User.vue"
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Greeting,
+    User
+  },
+  data() {
+    return {
+      age: 20
+    }
+  },  
+  methods: {
+    updateAge(num) {
+      this.age += num
+    },
+    updateAgeCB(num){
+      this.age -= num
+    }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped lang="scss">
+  $color: red;
+  p {
+    color: $color;
+  }
 </style>
