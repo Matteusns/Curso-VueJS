@@ -5,7 +5,6 @@ module.exports = {
   },
   extends: [
     'plugin:vue/vue3-essential',
-    '@vue/airbnb',
   ],
   parserOptions: {
     parser: '@babel/eslint-parser',
@@ -13,6 +12,9 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-trailing-spaces': 0,
+    'no-multiple-empty-lines': 0,
+    'max-len': ['error', { code: 170 }],
   },
   overrides: [
     {
